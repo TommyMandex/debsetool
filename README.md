@@ -12,7 +12,7 @@ So? itu semua tergantung manusia nya~
 
 -------------------------------------------------------------------------------------------------------
 # Fitur
-
+<pre>
 [1] Configure Network.            ~ [11] DNS Server (bind9) 
 [2] Configure Repository.         ~ [12] Mail Server & Webmail 
 [3] Check Hostname & Hostname -f  ~ [13] Radio Server (icecast2) 
@@ -23,7 +23,7 @@ So? itu semua tergantung manusia nya~
 [8] Activate SSL (HTTPS)          ~ [18] Coming Soon~
 [9] Samba Server                  ~ [19] Coming Soon~
 [10] FTP Server (Proftpd)         ~ [20] Coming Soon~
-
+</pre>
 # Tested in debian 8.6 Server
 
 Author by : alinko kun a.k.a shutdown57
