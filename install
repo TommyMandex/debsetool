@@ -1,0 +1,70 @@
+#!/bin/bash
+
+m="\033[1;31m"
+k="\033[1;33m"
+h="\033[1;32m"
+b="\033[1;34m"
+n="\033[0m"
+
+a_load(){
+{
+for (( i = $2 ; i <= $3 ; i++ )); do
+	sleep 0.1
+	echo "$i"
+done
+ } | whiptail --title "[+] DEBSETOOL - Debian Server Tools [+]" --gauge "$1" 10 40 0
+}
+sleep 2
+a_license(){
+ whiptail --textbox LICENSE.txt --scrolltext --title "DEBSETOOL - General Public License v3" 30 80 0
+a_main
+}
+a_uninstall(){
+	a_load "[+] Uninstall debsetool ..." 1 10
+	rm -rf /opt/debsetool
+	a_load "[+] Removing '/opt/debsetool' ...." 10 30
+	rm /usr/bin/debsetool
+	a_load "[+] Removing '/usr/bin/debsetool' ..." 30 60
+	a_load "[+] Cleaning ..." 60 70
+	a_load "[+] Fininshing .." 70 10
+	whiptail --title "[+] UNINSTALL FINISHED [+]" --msgbox "[!] UNINSTALL FINISHED [!] " 10 40 0
+}
+a_install(){
+	a_load "[+] Installing debsetool ..." 1 10
+	mkdir -p /opt/debsetool
+	a_load "[+] Craating Directory '/opt/debsetool ..' " 10 20
+	cp debsetool.sh /opt/debsetool/
+	a_load "[+] Copying debsetool.sh to '/opt/debsetool' .." 20 40
+	cp autorun.sh /usr/bin/debsetool
+	a_load "[+] Craating autorun ..." 40 60
+	chmod 755 -R /opt/debsetool
+	chmod +x /usr/bin/debsetool
+	a_load "[+] Change permission ..." 60 70
+	cp * /opt/debsetool
+	a_load "[+] Fininshing Installation ..." 70 100
+	whiptail --title "[+] INSTALLATION FINISHED [+]" --msgbox "[!] INSTALLATION FINISHED [!] " 10 40 0
+}
+a_about(){
+
+}
+a_main(){
+pil=$(whiptail --menu "[+] What Do You Want [?]" 10 40 0 \
+Install debsetool \
+Uninstall debsetool \
+Read License \
+About us \
+3>&1 1>&2 2>&3 3>&1 
+)
+clear
+if [[ $pil == "Install" ]]; then
+	a_install
+elif [[ $pil == "Uninstall" ]]; then
+	a_uninstall
+elif [[ $pil == "About" ]]; then
+	a_about
+elif [[ $pil == "Read" ]]; then
+	a_license
+fi
+}
+a_load " @ WAITING FOR YOU @ " 1 100
+a_main
