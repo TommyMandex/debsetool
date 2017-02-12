@@ -45,7 +45,8 @@ a_install(){
 	whiptail --title "[+] INSTALLATION FINISHED [+]" --msgbox "[!] INSTALLATION FINISHED [!] " 10 40 0
 }
 a_about(){
-
+whiptail --textbox about.txt --scrolltext --title "DEBSETOOL - General Public License v3" 30 80 0
+a_main
 }
 a_main(){
 pil=$(whiptail --menu "[+] What Do You Want [?]" 10 40 0 \
