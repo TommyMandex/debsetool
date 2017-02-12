@@ -9,7 +9,14 @@ kalo untuk alasan membuat orang malas mah terserah yang memakai dan tergantung y
 
 Kalo orang bilang "Jangan pakai itu , itu membuat orang malas!!" , kita sebagai author menanggapi nya bagaimana? . coba lah tengok semua aplikasi2 yang kalian gunakan. itu semua membuat orang malas gblk! contoh : sms,telpon dll. 
 So? itu semua tergantung manusia nya~
-
+-------------------------------------------------------------------------------------------------------
+# Installation
+<pre>
+root@linuXcode:~# git clone https://github.com/alintamvanz/debsetool.git
+root@linuXcode:~# chmod 755 -R debsetool
+root@linuXcode:~# cd debsetool
+root@linuXcode:~/debsetool #./install 
+</pre>
 -------------------------------------------------------------------------------------------------------
 # Fitur
 <pre>
