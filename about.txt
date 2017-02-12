@@ -1,4 +1,19 @@
 [+] ABOUT [+]
 
 This Free Software made by brain and logic,
-Writted with bash script shell. 
+Written with bash script shell. 
+Under General Public License v3
+You Can ReCode,RePublish,ReBuild and modify this script under GPLv3
+
+
+copyright (c) 2k17 alinko kun a.k.a shutdown57
+------------------------------------------------------------------
+------------------------------------------------------------------
+Donate : alinkokomansuby@gmail.com 
+------------------------------------------------------------------
+------------------------------------------------------------------
+
+Alhamdulillahirabbil 'alamin
+Thanks to : Rizky ~ Ferdian ~ Ravi ~ Umam ~ Amin ~ All My Friendz
+------------------------------------------------------------------
+------------------------------------------------------------------
