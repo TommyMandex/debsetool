@@ -1,4 +1,12 @@
 #!/bin/bash
+##########################################
+# c0ded by : alinko a.k.a shutdown57     #
+##########################################
+#~	DebsTool - Debian Server Tools  ~#
+#~	Easy Configuration Debian Server~#
+#~	Make Fast Your Work~ 		~#
+#~	INDONESIAN LINUX CODE SECURITY	~#
+#--------------linuXcode.org-------------#
 
 m="\033[1;31m"
 k="\033[1;33m"
@@ -20,6 +28,8 @@ a_license(){
 a_main
 }
 a_uninstall(){
+	which debsetool > /dev/null 2>&1
+if [[ "$?" -eq "0" ]]; then
 	a_load "[+] Uninstall debsetool ..." 1 10
 	rm -rf /opt/debsetool
 	a_load "[+] Removing '/opt/debsetool' ...." 10 30
@@ -28,15 +38,18 @@ a_uninstall(){
 	a_load "[+] Cleaning ..." 60 70
 	a_load "[+] Fininshing .." 70 10
 	whiptail --title "[+] UNINSTALL FINISHED [+]" --msgbox "[!] UNINSTALL FINISHED [!] " 10 40 0
+else
+	whiptail --title "[+] debsetool not Installed [+]" --msgbox "[!] DebsTool not Installed,so? can't Uninstall.." 10 40 0
+fi	
 }
 a_install(){
 	a_load "[+] Installing debsetool ..." 1 10
 	mkdir -p /opt/debsetool
-	a_load "[+] Craating Directory '/opt/debsetool ..' " 10 20
+	a_load "[+] Creating Directory '/opt/debsetool ..' " 10 20
 	cp debsetool.sh /opt/debsetool/
 	a_load "[+] Copying debsetool.sh to '/opt/debsetool' .." 20 40
 	cp autorun.sh /usr/bin/debsetool
-	a_load "[+] Craating autorun ..." 40 60
+	a_load "[+] Creating autorun ..." 40 60
 	chmod 755 -R /opt/debsetool
 	chmod +x /usr/bin/debsetool
 	a_load "[+] Change permission ..." 60 70
