@@ -27,9 +27,9 @@ root@linuXcode:~/debsetool #./install
 [5] Install NTP and Configure NTP ~ [15] Install Webmin
 [6] Configure bash.bashrc         ~ [16] VoIP (asterisk)
 [7] Auto Install WebServer        ~ [17] Install Nagios3
-[8] Activate SSL (HTTPS)          ~ [18] Coming Soon~
-[9] Samba Server                  ~ [19] Coming Soon~
-[10] FTP Server (Proftpd)         ~ [20] Coming Soon~
+[8] Activate SSL (HTTPS)          ~ [18] Install CMS
+[9] Samba Server                  ~ [19] -----------
+[10] FTP Server (Proftpd)         ~ [20] Update debsetool
 </pre>
 # Tested in debian 8.6 Server
 
