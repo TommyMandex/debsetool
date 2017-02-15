@@ -434,6 +434,56 @@ a_asterisk(){
 	 sleep 2
 	 a_main
 }
+a_cekwebserver(){
+	echo "[+] Checking For Apache2 Installed ..."
+	sleep 1
+	which a2enmod > /dev/null 2>&1
+	if [[ "$?" -eq "0" ]]; then
+		echo -e $h"[+] apache2 installed ..."$n
+		sleep 1
+	else
+		echo -e $m"[+] apache2 not installed ..."$n
+		sleep 1
+		exit 0
+	fi
+}
+a_cms(){
+	clear
+	a_cekwebserver
+	clear
+	echo "+------------------------------------------+"
+	echo -e "|$m Debian Server Tools - DebsTool - 2k17$n    |"
+	echo -e "|$b  Select Your Content Management System$n   |"
+	echo "+------------------------------------------+"
+	echo -e "[1]$h Wordpress$n      [6]$h Moodle $n"
+	echo -e "[2]$h Balitbang$n      [7]$h MyBB $n"
+	echo -e "[3]$h Joomla  $n       [8]$h PopojiCMS $n"
+	echo -e "[4]$h Drupal  $n       [9]$h Sekolahku $n"
+	echo -e "[5]$h Magentoo$n       [10]$h Your Own CMS $n"
+	echo -n "Your CMS >>"
+	read cms
+	# ACTION
+}
+a_updatex(){
+	which git > /dev/null 2>&1
+	if [[ "$?" -eq "0" ]]; then
+		clear
+		a_cekKoneqzi
+		echo "[+] Updating Please wait..."
+		git clone https://github.com/alintamvanz/debsetool.git /usr/share/debsetool
+		chmod 755 -R /usr/share/debsetool
+		bash /usr/share/debsetool/install
+	else
+	echo "[+] Your System not already install 'git' .."
+	echo -n "[!] What You Want to install git ? [Y/n] "
+	read g
+	if [[ $g == "Y" || $g == "y" || $g == "" ]]; then
+		apt-get install git
+	else
+		exit 0
+	fi
+	fi
+}
 a_main(){
 		clear
 echo -e $n"             _______________          |*\_/*|________      "
@@ -446,7 +496,7 @@ echo -e $n"             / ********** \....."$k"O"$n"..... / ********** \      "
 echo -e $n"           /  ************  \        /  ************  \    "
 echo -e $n"          --------------------      --------------------   "
 echo -e $n"         +-----------------------------------------------+ "
-echo -e $n"         |     -[$m Debian 8.6 Server "$n"|$b Auto ToOlz$n ]-      | "
+echo -e $n"         |     -[$m Debian     Server "$n"|$b Auto ToOlz$n ]-      | "
 echo -e $n"         |      $m  Author   :$k alinko a.k.a shutdown57$n     |"
 echo -e $n"         |      $m  Version  :$k 1.0 IDLICO  $n                |"
 echo -e $n"         |      $m Codename  :$k PemalazMaz  $n                |"
@@ -460,9 +510,9 @@ echo -e $n"["$b"4"$n"]$h Configure locales            "$k" ~ "$n"["$b"14"$n"]$h 
 echo -e $n"["$b"5"$n"]$h Install NTP and Configure NTP"$k" ~ "$n"["$b"15"$n"]$h Install Webmin"
 echo -e $n"["$b"6"$n"]$h Configure bash.bashrc        "$k" ~ "$n"["$b"16"$n"]$h VoIP (asterisk)"
 echo -e $n"["$b"7"$n"]$h Auto Install WebServer       "$k" ~ "$n"["$b"17"$n"]$h Install Nagios3"
-echo -e $n"["$b"8"$n"]$h Activate SSL (HTTPS)         "$k" ~ "$n"["$b"18"$n"]$h Coming Soon~"
+echo -e $n"["$b"8"$n"]$h Activate SSL (HTTPS)         "$k" ~ "$n"["$b"18"$n"]$h Install CMS"
 echo -e $n"["$b"9"$n"]$h Samba Server                 "$k" ~ "$n"["$b"19"$n"]$n Coming Soon~"
-echo -e $n"["$b"10"$n"]$h FTP Server (Proftpd)        "$k" ~ "$n"["$b"20"$n"]$n Coming Soon~"
+echo -e $n"["$b"10"$n"]$h FTP Server (Proftpd)        "$k" ~ "$n"["$b"20"$n"]$k Update debsetool"
 echo -e -n $m"alinko"$k"@"$b"smkw9jepara$n : "
 read pil
 if [[ $pil == "1" ]]; then
@@ -515,6 +565,12 @@ elif [[ $pil == "16" ]]; then
 	a_main
 elif [[ $pil == "17" ]]; then
 	a_nagios3
+	a_main
+elif [[ $pil == "18" ]]; then
+	a_cms
+	a_main
+elif [[ $pil == "20" ]]; then
+	a_updatex
 	a_main
 else
 	clear 
