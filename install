@@ -2,10 +2,10 @@
 ##########################################
 # c0ded by : alinko a.k.a shutdown57     #
 ##########################################
-#~	DebsTool - Debian Server Tools  ~#
-#~	Easy Configuration Debian Server~#
-#~	Make Fast Your Work~ 		~#
-#~	INDONESIAN LINUX CODE SECURITY	~#
+#~	DebsTool - Debian Server Tools      ~#
+#~	Easy Configuration Debian Server    ~#
+#~	Make Fast Your Work~ 				~#
+#~	INDONESIAN LINUX CODE SECURITY		~#
 #--------------linuXcode.org-------------#
 
 m="\033[1;31m"
@@ -45,11 +45,11 @@ fi
 a_install(){
 	a_load "[+] Installing debsetool ..." 1 10
 	mkdir -p /opt/debsetool
-	a_load "[+] Creating Directory '/opt/debsetool ..' " 10 20
+	a_load "[+] Craating Directory '/opt/debsetool ..' " 10 20
 	cp debsetool.sh /opt/debsetool/
 	a_load "[+] Copying debsetool.sh to '/opt/debsetool' .." 20 40
 	cp autorun.sh /usr/bin/debsetool
-	a_load "[+] Creating autorun ..." 40 60
+	a_load "[+] Craating autorun ..." 40 60
 	chmod 755 -R /opt/debsetool
 	chmod +x /usr/bin/debsetool
 	a_load "[+] Change permission ..." 60 70
