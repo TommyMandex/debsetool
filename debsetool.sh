@@ -3,10 +3,10 @@
 ##########################################
 # c0ded by : alinko a.k.a shutdown57     #
 ##########################################
-#~	DebsTool - Debian Server Tools      ~#
-#~	Easy Configuration Debian Server    ~#
-#~	Make Fast Your Work~ 				~#
-#~	INDONESIAN LINUX CODE SECURITY		~#
+#~	DebsTool - Debian Server Tools  ~#
+#~	Easy Configuration Debian Server~#
+#~	Make Fast Your Work~ 	        ~#
+#~	INDONESIAN LINUX CODE SECURITY	~#
 #--------------linuXcode.org-------------#
 
 m="\033[1;31m"
@@ -186,6 +186,7 @@ a_sslx(){
     sleep 2
     clear
     echo "[+] Add Listening Port 443 ... "
+    echo \# PORT LISTEN 443 BY ALINKO :v >> /etc/apache2/ports.conf
     echo Listen 443 >> /etc/apache2/ports.conf
     sleep 1
     clear
@@ -458,7 +459,7 @@ a_cms(){
 	echo -e "[1]$h Wordpress$n      [6]$h Moodle $n"
 	echo -e "[2]$h Balitbang$n      [7]$h MyBB $n"
 	echo -e "[3]$h Joomla  $n       [8]$h PopojiCMS $n"
-	echo -e "[4]$h Drupal  $n       [9]$h Sekolahku $n"
+	echo -e "[4]$h Drupal  $n       [9]$h Slims Akasia $n"
 	echo -e "[5]$h Magentoo$n       [10]$h Your Own CMS $n"
 	echo -n "Your CMS >>"
 	read cms
@@ -470,7 +471,10 @@ a_updatex(){
 		clear
 		a_cekKoneqzi
 		echo "[+] Updating Please wait..."
-		git clone https://github.com/alintamvanz/debsetool.git /usr/share/debsetool
+		git clone https://github.com/alintamvanz/debsetool.git /usr/share/debsetool > /dev/null 2>&1
+		echo -n "[+] Get : https://github.com/alintamvanz/debsetool.git ..."
+		sleep 1
+		echo -n "[+] Get : Change Permission ..."; sleep 1
 		chmod 755 -R /usr/share/debsetool
 		bash /usr/share/debsetool/install
 	else
@@ -484,6 +488,135 @@ a_updatex(){
 	fi
 	fi
 }
+a_repo_depen(){
+	clear
+	echo "[+] Checking Dependencies ..."
+	which a2enmod > /dev/null 2>&1
+	if [[ "$?" -eq "0" ]]; then
+		echo -e $h"[+] Apache2...........INSTALLED !"$n
+	else
+		echo -e $m"[-] Apache2.......NOT INSTALLED !"$n
+		sleep 1
+		echo "[+] Installing Apache2 ..."
+		apt-get install  apache2
+		sleep 1
+		clear
+	fi
+	which rsync > /dev/null 2>&1
+	if [[ "$?" -eq "0" ]]; then
+		echo -e $h"[+] Rsync.............INSTALLED !"$n
+	else
+		echo -e $m"[-] Rsync.........NOT INSTALLED !"$n
+		sleep 1
+		echo "[!] Installing rsync ..."
+		apt-get install rsync
+		sleep 1
+		clear
+	fi
+	which dpkg-dev > /dev/null 2>&1
+	if [[ "$?" -eq "0" ]]; then
+		echo -e $h"[+] dpkg-dev..........INSTALLED !"$n
+	else
+		echo -e $m"[-] dpkg-dev......NOT INSTALLED !"$n
+		sleep 1
+		echo "[!] Installing dpkg-dev ..."
+		apt-get install dpkg-dev
+		sleep 1
+		clear
+	fi
+
+}
+a_repo(){
+a_repo_depen
+echo "[+] Creating /repo directory ..."
+mkdir -p /repo
+sleep 1
+echo "[+] Creating directory {/media/dvd1,/media/dvd2,/media/dvd3} ..."
+mkdir -p /media/dvd1
+mkdir -p /media/dvd2
+mkdir -p /media/dvd3
+sleep 1
+echo "[+] Creating directory {/repo/pool/ ...} ..."
+mkdir -p /repo/pool
+mkdir -p /repo/dists/jessie/main/binary-amd64/
+mkdir -p /repo/dists/jessie/main/source/
+sleep 1
+echo "[+]--- MOUNTING DVD1,DVD2,DVD3 --- [+]"
+echo -n "[!] dvd1 path :"
+read dvd1
+echo -n "[!] dvd2 path :"
+read dvd2
+echo -n "[!] dvd3 path :"
+read dvd3
+if [[ $dvd1 != "" && $dvd2 != "" && $dvd3 != ""  ]]; then
+	echo "[+] mountig $dvd1 to /media/dvd1 ..."
+	mount -o loop $dvd1 /media/dvd1
+	echo "[+] mountig $dvd2 to /media/dvd2 ..."
+	mount -o loop $dvd2 /media/dvd2
+	echo "[+] mountig $dvd3 to /media/dvd3 ..."
+	mount -o loop $dvd3 /media/dvd3
+	sleep 2
+	echo "[+] Rsyncing dvd1 ..."
+	rsync -avH /media/dvd1/pool /repo/pool
+	echo "[+] Rsyncing dvd2 ..."
+	rsync -avH /media/dvd2/pool /repo/pool
+	echo "[+] Rsyncing dvd3 ..."
+	rsync -avH /media/dvd3/pool /repo/pool
+	sleep 1
+	echo "[+] Change directory to /repo .."
+	cd /repo
+	if [[ `pwd` == "/repo" ]]; then
+		echo "[+] Your in /repo directory ..."
+		sleep 1
+		echo "[+] packaging dvd1,dvd2,dvd3 ..."
+	    dpkg-scanpackages ./dev/null | gzip -9c > Packages.gz
+	    sleep 1
+	    echo "[+] Resources dvd1,dvd2,dvd3 ..."
+	    dpkg-scansources ./dev/null | gzip -9c > Sources.gz
+	    sleep 1
+	    echo "[+] Moving Packages.gz and Sources.gz ..."
+	    mv Packages.gz /repo/dists/main/binary-amd64
+	    sleep 1
+	    mv Sources.gz /repo/dists/main/source/
+	    sleep 1
+	    echo "[+] Creating Symlink to /var/www/html/debian ..."
+	    ln -s /repo /var/www/html/debian
+	    sleep 1
+	    echo "[+] Generating debian Repository ..."
+	    echo -n "[+] Your Server Address : "
+	    read addrez
+	    regex_urlx=`echo $addrez | grep "http"`
+	    if [[ "$regex_urlx" -eq "0" ]]; then
+	    	clear
+	    	echo "#--------- YOUR NEW REPOSITORY ----------"
+	    	echo "deb $regex_urlx/debian jessie main"
+	    	echo "deb-src $regex_urlx/debian jessie main"
+	    	echo "#Repository Created by alinko kun <3"
+	    else
+	    	clear
+	    	echo "#--------- YOUR NEW REPOSITORY ----------"
+	    	echo "deb http://$addrez/debian jessie main"
+	    	echo "deb-src http://$addrez/debian jessie main"
+	    	echo "#Repository Created by alinko kun <3"
+	    fi
+	 else
+	 	echo "[+] exit ..."
+	 	echo -n "[!] Making Repository failed ! , what you want clean ? [Y/n] "
+	 	read cleanx
+	 	if [[ $cleanx == "y" || $cleanx == "Y" || $cleanx == "" ]]; then
+	 		rm -rf /repo
+	 		rm -rf /media/dvd1
+	 		rm -rf /media/dvd2
+	 		rm -rf /media/dvd3
+	 		echo "[+] Cleaning Finished ..."
+	 		exit 0
+	 	fi
+	fi
+else
+	echo "[!] Your DVD 1,2,3 not available ..."
+	exit 0
+fi
+}
 a_main(){
 		clear
 echo -e $n"             _______________          |*\_/*|________      "
@@ -496,7 +629,7 @@ echo -e $n"             / ********** \....."$k"O"$n"..... / ********** \      "
 echo -e $n"           /  ************  \        /  ************  \    "
 echo -e $n"          --------------------      --------------------   "
 echo -e $n"         +-----------------------------------------------+ "
-echo -e $n"         |     -[$m Debian     Server "$n"|$b Auto ToOlz$n ]-      | "
+echo -e $n"         |     -[$m Debian Server "$n"|    $b Auto ToOlz$n ]-      | "
 echo -e $n"         |      $m  Author   :$k alinko a.k.a shutdown57$n     |"
 echo -e $n"         |      $m  Version  :$k 1.0 IDLICO  $n                |"
 echo -e $n"         |      $m Codename  :$k PemalazMaz  $n                |"
@@ -511,7 +644,7 @@ echo -e $n"["$b"5"$n"]$h Install NTP and Configure NTP"$k" ~ "$n"["$b"15"$n"]$h 
 echo -e $n"["$b"6"$n"]$h Configure bash.bashrc        "$k" ~ "$n"["$b"16"$n"]$h VoIP (asterisk)"
 echo -e $n"["$b"7"$n"]$h Auto Install WebServer       "$k" ~ "$n"["$b"17"$n"]$h Install Nagios3"
 echo -e $n"["$b"8"$n"]$h Activate SSL (HTTPS)         "$k" ~ "$n"["$b"18"$n"]$h Install CMS"
-echo -e $n"["$b"9"$n"]$h Samba Server                 "$k" ~ "$n"["$b"19"$n"]$n Coming Soon~"
+echo -e $n"["$b"9"$n"]$h Samba Server                 "$k" ~ "$n"["$b"19"$n"]$h Make Repository Debian with DVD"
 echo -e $n"["$b"10"$n"]$h FTP Server (Proftpd)        "$k" ~ "$n"["$b"20"$n"]$k Update debsetool"
 echo -e -n $m"alinko"$k"@"$b"smkw9jepara$n : "
 read pil
@@ -568,6 +701,9 @@ elif [[ $pil == "17" ]]; then
 	a_main
 elif [[ $pil == "18" ]]; then
 	a_cms
+	a_main
+elif [[ $pil == "19" ]]; then
+	a_repo
 	a_main
 elif [[ $pil == "20" ]]; then
 	a_updatex
