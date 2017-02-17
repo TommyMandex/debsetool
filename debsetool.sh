@@ -3,10 +3,10 @@
 ##########################################
 # c0ded by : alinko a.k.a shutdown57     #
 ##########################################
-#~	DebsTool - Debian Server Tools  ~#
-#~	Easy Configuration Debian Server~#
-#~	Make Fast Your Work~ 	        ~#
-#~	INDONESIAN LINUX CODE SECURITY	~#
+#~	DebsTool - Debian Server Tools      ~#
+#~	Easy Configuration Debian Server    ~#
+#~	Make Fast Your Work~ 	            ~#
+#~	INDONESIAN LINUX CODE SECURITY	    ~#
 #--------------linuXcode.org-------------#
 
 m="\033[1;31m"
@@ -464,19 +464,117 @@ a_cms(){
 	echo -n "Your CMS >>"
 	read cms
 	# ACTION
+	if [[ $cms == "1" ]]; then
+		a_cekwebserver
+		a_cekKoneqzi
+		sleep 2
+		echo "[+] Downloading wordpress ..."
+		echo -n "[+] Please wait ..."
+		wget https://wordpress.org/latest.tar.gz > /dev/null 2>&1
+		sleep 1
+		echo "[+] Extracting wordpress ..."
+		echo -n "[+] Please wait ..."
+		tar -xvf latest.tar.gz > /dev/null 2>&1
+		sleep 1
+		echo "[+] Moving directory wordpress to /var/www/html ..."
+		mv wordpress /var/www/html/wordpress
+		sleep  1
+		echo "[+] Change Owner to www-data ..."
+		chown www-data:www-data -R /var/www/html/wordpress
+		sleep 1
+		echo "[+] Checking wordpress available ..."
+		ls /var/www/html | grep "wordpress" > /dev/null 2>&1
+		if [[ "$?" -eq "0" ]]; then
+			echo -e $h"[+] Wordpress available in /var/www/html/wordpress !"$n
+			echo "[+] Wordpress Ready to install. Go to Your Web browser and open your wordpress now!"
+		else
+			echo -e $m"[-] Wordpress not available in /var/www/html/wordpress "$n
+			echo "[-] Installation failed."
+		fi
+	elif [[ $cms == "2" ]]; then
+		a_cekwebserver
+		a_cekKoneqzi
+		echo "[+] Downloading Balitbang ..."
+		echo -n "[+] Please wait ..."
+		wget http://rspdklaten.id/data/CMS/CMS%20Balitbang353/cmsbalitbangv353.zip > /dev/null 2>&1
+		sleep 1
+		# MORE
+	elif [[ $cms == "3" ]]; then
+		a_cekwebserver
+		a_cekKoneqzi
+		echo "[+] Downloading Joomla ..."
+		echo -n "[+] Please wait ..."		
+		wget https://github.com/joomla/joomla-cms/releases/download/3.7.0-beta2/Joomla_3.7.0-beta2-Beta-Update_Package.tar.gz > /dev/null 2>&1
+		sleep 1
+		# more
+	elif [[ $cms == "4" ]]; then
+		a_cekwebserver
+		a_cekKoneqzi
+		echo "[+] Downloading Drupal ..."
+		echo -n "[+] Please wait ..."
+		wget https://github.com/drupal/drupal/archive/8.2.6.tar.gz > /dev/null 2>&1
+		sleep 1
+		# more
+	elif [[ $cms == "5" ]]; then
+		a_cekwebserver
+		a_cekKoneqzi
+		echo "[+] Downloading Magentoo ..."
+		echo -n "[+] Please wait ..."
+		wget https://github.com/magento/magento2/archive/2.1.4.tar.gz > /dev/null 2>&1
+		sleep 1
+		# more
+	elif [[ $cms == "6" ]]; then
+		a_cekwebserver
+		a_cekKoneqzi
+		echo "[+] Downloading moodle ..."
+		echo -n "[+] Please wait ..."
+		wget https://github.com/moodle/moodle/archive/v3.0.8.tar.gz > /dev/null 2>&1
+		# more
+	elif [[ $cms == "7" ]]; then
+		a_cekwebserver
+		a_cekKoneqzi
+		echo "[+] Downloading mybb ..."
+		echo -n "[+] Please wait ..."
+		wget https://github.com/mybb/mybb/archive/mybb_1810.tar.gz > /dev/null 2>&1
+		# more
+	elif [[ $cms == "8" ]]; then
+		a_cekKoneqzi
+		a_cekKoneqzi
+		echo "[+] Downloading PopojiCMS ..."
+		echo -n "[+] Please wait ..."
+		wget https://github.com/PopojiCMS/PopojiCMS/archive/v2.0.1.tar.gz > /dev/null 2>&1
+		#more
+	elif [[ $cms == "9" ]]; then
+		a_cekwebserver
+		a_cekKoneqzi
+		echo "[+] Downloading slims8 akasia ..."
+		echo -n "[+] Please wait ..."
+		wget https://github.com/slims/slims8_akasia/archive/master.zip > /dev/null 2>&1
+		# more
+
+	fi
 }
 a_updatex(){
 	which git > /dev/null 2>&1
 	if [[ "$?" -eq "0" ]]; then
 		clear
 		a_cekKoneqzi
-		echo "[+] Updating Please wait..."
-		git clone https://github.com/alintamvanz/debsetool.git /usr/share/debsetool > /dev/null 2>&1
-		echo -n "[+] Get : https://github.com/alintamvanz/debsetool.git ..."
-		sleep 1
-		echo -n "[+] Get : Change Permission ..."; sleep 1
-		chmod 755 -R /usr/share/debsetool
-		bash /usr/share/debsetool/install
+		echo "[+] Checking For Updates ..."
+		curl -s https://raw.githubusercontent.com/alintamvanz/debsetool/master/update | grep "YES"
+		if [[ "$?" -eq "0" ]]; then
+			echo -e $b"[!] UPDATE AVAILABLE ..."
+			sleep 1
+			echo "[+] Updating Please wait..."
+		    git clone https://github.com/alintamvanz/debsetool.git /usr/share/debsetool > /dev/null 2>&1
+		    echo -n "[+] Get : https://github.com/alintamvanz/debsetool.git ..."
+		    sleep 1
+		    echo -n "[+] Get : Change Permission ..."; sleep 1
+		    chmod 755 -R /usr/share/debsetool
+		    bash /usr/share/debsetool/install
+		else
+			echo -e $k"[!] UPDATE NOT AVAILABLE .."
+			exit 0
+		fi
 	else
 	echo "[+] Your System not already install 'git' .."
 	echo -n "[!] What You Want to install git ? [Y/n] "
