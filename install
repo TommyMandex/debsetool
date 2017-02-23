@@ -36,6 +36,8 @@ if [[ "$?" -eq "0" ]]; then
 	rm /usr/bin/debsetool
 	a_load "[+] Removing '/usr/bin/debsetool' ..." 30 60
 	a_load "[+] Cleaning ..." 60 70
+	rm -rf /etc/debsetool
+	rmdir /etc/debsetool
 	a_load "[+] Fininshing .." 70 10
 	whiptail --title "[+] UNINSTALL FINISHED [+]" --msgbox "[!] UNINSTALL FINISHED [!] " 10 40 0
 else
@@ -44,22 +46,39 @@ fi
 }
 a_install(){
 	a_load "[+] Installing debsetool ..." 1 10
-	mkdir -p /opt/debsetool
+	mkdir -p /opt/debsetool > /dev/null 2>&1
+	mkdir -p /etc/debsetool > /dev/null 2>&1
 	a_load "[+] Craating Directory '/opt/debsetool ..' " 10 20
-	cp debsetool.sh /opt/debsetool/
+	cp debsetool.sh /opt/debsetool/ > /dev/null 2>&1
 	a_load "[+] Copying debsetool.sh to '/opt/debsetool' .." 20 40
-	cp autorun.sh /usr/bin/debsetool
+	cp autorun.sh /usr/bin/debsetool > /dev/null 2>&1
 	a_load "[+] Craating autorun ..." 40 60
-	chmod 755 -R /opt/debsetool
-	chmod +x /usr/bin/debsetool
+	chmod 755 -R /opt/debsetool > /dev/null 2>&1
+	chmod +x /usr/bin/debsetool > /dev/null 2>&1
 	a_load "[+] Change permission ..." 60 70
-	cp * /opt/debsetool
+	cp * /opt/debsetool > /dev/null 2>&1
+	cp debsetool-user.conf /etc/debsetool > /dev/null 2>&1
 	a_load "[+] Fininshing Installation ..." 70 100
 	whiptail --title "[+] INSTALLATION FINISHED [+]" --msgbox "[!] INSTALLATION FINISHED [!] " 10 40 0
 }
 a_about(){
 whiptail --textbox about.txt --scrolltext --title "DEBSETOOL - General Public License v3" 30 80 0
 a_main
+}
+a_user(){
+user=$(whiptail --title "[+] DEBSETOOL - Debian Server Tools [+]" --inputbox "USERNAME :" 10 40 3>&1 1>&2 2>&3 3>&1 )
+pass=$(whiptail --title "[+] DEBSETOOL - Debian Server Tools [+]" --passwordbox "PASSWORD :" 10 40 3>&1 1>&2 2>&3 3>&1 )
+email=$(whiptail --title "[+] DEBSETOOL - Debian Server Tools [+]" --inputbox "YOUR EMAIL :" 10 40 3>&1 1>&2 2>&3 3>&1 )
+whiptail --msgbox "Your Name : $user \n Your Pass : ******* h3h3h3 \n Your Email : $email " --title "[+] DEBSETOOL - Debian Server Tools [+]" 10 40
+touch debsetool-user.conf
+echo \# Debian Server Tool User Info >> debsetool-user.conf
+echo "USERNAME="$user >> debsetool-user.conf
+echo \#--------------------------------------- >> debsetool-user.conf
+echo "PASSWORD="$pass >> debsetool-user.conf
+echo \#--------------------------------------- >> debsetool-user.conf
+echo "EMAIL="$email >> debsetool-user.conf
+echo \#--------------------------------------- >> debsetool-user.conf
+echo \# Thx : Rizky - Umam - Ferdi - Ravi - Amin >> debsetool-user.conf
 }
 a_main(){
 pil=$(whiptail --menu "[+] What Do You Want [?]" 10 40 0 \
@@ -80,5 +99,6 @@ elif [[ $pil == "Read" ]]; then
 	a_license
 fi
 }
-a_load " @ WAITING FOR YOU @ " 1 100
+a_load " @ WAITING FOR YOU @ \n \n For Install This Appplication You Must Register ;) \n" 1 100
+a_user
 a_main
